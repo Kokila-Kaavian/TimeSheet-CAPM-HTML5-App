@@ -1,0 +1,24 @@
+.home-main-container{
+  padding: 10px;
+  height: 100dvh;
+}
+.header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.heading{
+  padding: 8px;
+}
+.menu{
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.future-enhancement{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}

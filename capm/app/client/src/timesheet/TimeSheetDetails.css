@@ -1,0 +1,66 @@
+.main-container{
+  font-size: 16px;
+  padding: 10px;
+}
+.sub-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.headers{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.actions{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 20%;
+}
+.actions-btn{
+  background-color: #156082;
+  text-align: center;
+  padding: 5px 10px;
+  color: white;
+  font-size: 16px;
+  border: none;
+}
+.input-box {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: center;
+}
+.input-box:focus {
+  outline: none;
+}
+.store-action {
+  width: 80%;
+  margin: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.logout-button{
+  margin: 20px;
+}
+
+.table-cell{
+  font-weight: 700;
+  font-size: 14px;
+}
+.table-header{
+  text-align: center;
+}
+.project-name, .user-name{
+  margin: 0;
+}

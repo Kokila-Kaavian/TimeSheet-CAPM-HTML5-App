@@ -1,0 +1,32 @@
+.user-sidebar-main-container{
+  display: flex;
+}
+.user-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 180px;
+  background-color: #0070f2;
+  left: 0;
+  z-index: 1;
+}
+.user-sidebar-menus{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+.menu-label{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.menu-label.active{
+  font-weight: bold;
+}
+.component-container{
+  width: 100%;
+}

@@ -1,0 +1,7 @@
+---
+applications:
+  - name: TimeSheet
+    random-route: true
+    path: client/build/
+    memory: 256M
+    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git

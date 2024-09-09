@@ -1,0 +1,65 @@
+_schema-version: 3.3.0
+ID: TimeSheet
+version: 1.0.0
+description: "Time sheet app for smartsoft"
+parameters:
+  deploy_mode: html5-repo 
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: TimeSheet-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: TimeSheet-db
+      - name: TimeSheet-auth
+
+  - name: TimeSheet-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: TimeSheet-db
+
+  - name: TimeSheet-UI
+    type: html5
+    path: app/client
+    build-parameters: 
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      build-result: build
+
+resources:
+  - name: TimeSheet-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: TimeSheet-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: TimeSheet-xsuaa-service
+        tenant-mode: dedicated
+deploy_mode: html5-repo

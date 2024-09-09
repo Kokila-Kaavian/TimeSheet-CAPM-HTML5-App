@@ -1,0 +1,13 @@
+.user-footer{
+  background-color: #0070f2;
+}
+.copyrights{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.copyright-content{
+  margin: 0;
+  padding: 5px;
+}
