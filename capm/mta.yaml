@@ -1,0 +1,123 @@
+_schema-version: 3.3.0
+ID: Reactapp-sample
+version: 1.1.0
+description: "Time sheet app for smartsoft"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: Reactapp-sample-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: postgre-sql-db
+      - name: uaa_Helloworld
+  - name: Helloworld-destination-content
+    type: com.sap.application.content
+    requires:
+    - name: Helloworld-destination-service
+      parameters:
+        content-target: true
+    - name: Helloworld_html_repo_host
+      parameters:
+        service-key:
+          name: Helloworld_html_repo_host-key
+    - name: uaa_Helloworld
+      parameters:
+        service-key:
+          name: uaa_Helloworld-key
+    parameters:
+      content:
+        instance:
+          destinations:
+          - Name: capm_Helloworld_html_repo_host
+            ServiceInstanceName: Helloworld-html5-app-host-service
+            ServiceKeyName: Helloworld_html_repo_host-key
+            sap.cloud.service: capm
+          - Authentication: OAuth2UserTokenExchange
+            Name: capm_uaa_Helloworld
+            ServiceInstanceName: Helloworld-xsuaa-service
+            ServiceKeyName: uaa_Helloworld-key
+            sap.cloud.service: capm
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: Helloworld_ui_deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+    - name: Helloworld_html_repo_host
+      parameters:
+        content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+      - artifacts:
+        - helloWorld-content.zip
+        name: helloWorld
+        target-path: resources/
+  - name: helloWorld
+    type: html5
+    path: helloWorld
+    build-parameters:
+      builder: custom
+      commands:
+      - npm install
+      - npm run build
+      supported-platforms: []
+  - name: Reactapp-sample-db-deployer
+    type: nodejs
+    path: gen/pg
+    parameters:
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - name: deploy-to-postgresql
+          command: npm start
+    requires:
+      - name: postgre-sql-db
+
+resources:
+  - name: postgre-sql-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: postgresql-db
+      service-plan: trial
+  - name: Helloworld-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+      service: destination
+      service-name: Helloworld-destination-service
+      service-plan: lite
+  - name: Helloworld_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: Helloworld-html5-app-host-service
+      service-plan: app-host
+  - name: uaa_Helloworld
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: Helloworld-xsuaa-service
+      service-plan: application
