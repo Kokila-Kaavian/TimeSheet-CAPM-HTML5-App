@@ -6,7 +6,17 @@ const { weekDates } = require("./handler/calculate-week-dates");
 const { backup } = require("../srv/backup/backup");
 
 cds.on("bootstrap", async (app) => {
-  app.use(cors({ origin: "*" }));
+  console.log('is enter');
+  const ORIGINS = { 'https://752bdd1etrial.launchpad.cfapps.us10.hana.ondemand.com': 1 }
+  app.use ((req, res, next) => {
+    if (req.headers.origin in ORIGINS) {
+      console.log(req.headers.origin);
+      res.set('access-control-allow-origin', req.headers.origin)
+      if (req.method === 'OPTIONS') // preflight request
+        return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
+    }
+    next()
+  })
 
   app.get("/", (req, res) => {
     try {
