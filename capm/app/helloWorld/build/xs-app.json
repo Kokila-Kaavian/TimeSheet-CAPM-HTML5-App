@@ -1,0 +1,28 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "source": "^/NorthWind_full_url/(.*)$",
+      "destination": "NorthWind_full_url",
+      "target": "$1"
+    },
+    {
+      "source": "^/service/timesheet/(.*)$",
+      "target": "/service/timesheet/$1",
+      "destination": "capm_url",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

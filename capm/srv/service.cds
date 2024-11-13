@@ -7,7 +7,7 @@ service timeSheetSSI
         projection on ts.SSIUserDetails excluding { Password };
 
     entity SSITimeSheetData as
-        projection on ts.SSITimeSheetData
+        projection on ts.SSITimeSheetData;
 
     action previous(
         curMon: String

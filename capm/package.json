@@ -42,14 +42,20 @@
     "requires": {
       "[production]": {
         "db": "postgres",
-        "auth": "mocked"
+        "auth": "xsuaa"
       },
       "app-service": {
         "impl": "@sap/low-code-event-handler"
       },
       "auth": {
         "[development]": {
-          "kind": "dummy"
+          "kind": "basic",
+          "users": {
+            "kokila.ss@kaaviansys.com": {
+            "password": "kokila123",
+            "roles": ["Token_Exchange"]
+            }
+          }
         },
         "[production]": {
           "kind": "xsuaa"

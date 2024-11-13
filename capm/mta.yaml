@@ -37,6 +37,7 @@ modules:
       parameters:
         service-key:
           name: Helloworld_html_repo_host-key
+    - name: srv-api
     - name: uaa_Helloworld
       parameters:
         service-key:
@@ -50,11 +51,12 @@ modules:
             ServiceKeyName: Helloworld_html_repo_host-key
             sap.cloud.service: capm
           - Authentication: OAuth2UserTokenExchange
-            Name: capm_uaa_Helloworld
+            Name: capm_url
             ServiceInstanceName: Helloworld-xsuaa-service
             ServiceKeyName: uaa_Helloworld-key
             sap.cloud.service: capm
-          existing_destinations_policy: ignore
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
     build-parameters:
       no-source: true
   - name: Helloworld_ui_deployer
@@ -73,7 +75,7 @@ modules:
         target-path: resources/
   - name: helloWorld
     type: html5
-    path: helloWorld
+    path: app/helloWorld
     build-parameters:
       builder: custom
       commands:

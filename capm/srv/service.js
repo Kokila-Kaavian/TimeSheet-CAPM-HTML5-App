@@ -30,8 +30,12 @@ class timeSheetSSI extends cds.ApplicationService {
     // Define a before READ request handler for the SSITimeSheetData entity
     this.before("READ", SSITimeSheetData, (req) => {
       try {
-        const {token} = req.headers;
-        const {id} = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log('is enter');
+        console.log(req.user); 
+        // const {token} = req.headers;
+        // const {id} = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        const id = 'kokila.ss@kaaviansys.com';
 
         // Calculate the dates for the current week
         const currentWeek = weekDates();

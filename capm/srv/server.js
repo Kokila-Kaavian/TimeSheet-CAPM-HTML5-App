@@ -6,7 +6,7 @@ const { weekDates } = require("./handler/calculate-week-dates");
 const { backup } = require("../srv/backup/backup");
 
 cds.on("bootstrap", async (app) => {
-  console.log('is enter');
+
   const ORIGINS = { 'https://752bdd1etrial.launchpad.cfapps.us10.hana.ondemand.com': 1 }
   app.use ((req, res, next) => {
     if (req.headers.origin in ORIGINS) {
