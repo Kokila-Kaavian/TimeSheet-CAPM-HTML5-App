@@ -27,6 +27,9 @@ modules:
     requires:
       - name: postgre-sql-db
       - name: uaa_Helloworld
+      - name: Helloworld-destination-service
+      - name: Helloworld-connectivity-service
+
   - name: Helloworld-destination-content
     type: com.sap.application.content
     requires:
@@ -56,7 +59,7 @@ modules:
             ServiceKeyName: uaa_Helloworld-key
             sap.cloud.service: capm
             URL: ~{srv-api/srv-url}
-          existing_destinations_policy: update
+          existing_destinations_policy: ignore
     build-parameters:
       no-source: true
   - name: Helloworld_ui_deployer
@@ -106,6 +109,15 @@ resources:
     parameters:
       config:
         HTML5Runtime_enabled: true
+        init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
         version: 1.0.0
       service: destination
       service-name: Helloworld-destination-service
@@ -116,6 +128,12 @@ resources:
       service: html5-apps-repo
       service-name: Helloworld-html5-app-host-service
       service-plan: app-host
+  - name: Helloworld-connectivity-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-name: Helloworld-connectivity-service
+      service-plan: lite
   - name: uaa_Helloworld
     type: org.cloudfoundry.managed-service
     parameters:

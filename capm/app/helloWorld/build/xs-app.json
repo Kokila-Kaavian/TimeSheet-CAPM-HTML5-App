@@ -6,17 +6,11 @@
   },
   "routes": [
     {
-      "authenticationType": "none",
-      "csrfProtection": false,
-      "source": "^/NorthWind_full_url/(.*)$",
-      "destination": "NorthWind_full_url",
-      "target": "$1"
-    },
-    {
       "source": "^/service/timesheet/(.*)$",
       "target": "/service/timesheet/$1",
       "destination": "capm_url",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
     },
     {
       "source": "^(.*)$",

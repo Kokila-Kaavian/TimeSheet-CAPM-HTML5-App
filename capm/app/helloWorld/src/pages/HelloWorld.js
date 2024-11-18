@@ -11,7 +11,7 @@ export default function NotFound() {
       textAlign="center"     
     >
       <Typography variant="h4" color="textPrimary">
-        Hello World Testing
+        Hello World Testing...
       </Typography>
     </Box>
   );

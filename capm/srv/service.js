@@ -41,7 +41,7 @@ class timeSheetSSI extends cds.ApplicationService {
         const currentWeek = weekDates();
          
         // Filter the query to get entries for the current week
-        req.query.where(`EntryDate >= '${currentWeek.weekDates[0]}'`).and(`EntryDate <= '${currentWeek.weekDates[6]}'`).and('ssiUserDetails_EmailId = ', id);
+        // req.query.where(`EntryDate >= '${currentWeek.weekDates[0]}'`).and(`EntryDate <= '${currentWeek.weekDates[6]}'`).and('ssiUserDetails_EmailId = ', id);
       } catch (err) {
         // Handle any errors that occur during this process
         req.error({ status: 500, message: err.message });
@@ -52,13 +52,13 @@ class timeSheetSSI extends cds.ApplicationService {
     this.before("READ", SSIUserDetails, (req) => {
       try {
         // Get token from headers
-        const token = req.headers.token;
+        // const token = req.headers.token;
 
-        //Retrieve id from the token after verifying with secret key 
-        const {id} = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        // //Retrieve id from the token after verifying with secret key 
+        // const {id} = jwt.verify(token, process.env.JWT_SECRET_KEY);
         
         // Filter the query to get details of the logged in user
-        req.query.where({ EmailId: id });
+        // req.query.where({ EmailId: id });
       } catch (err) {
         // Handle any errors that occur during this process
         req.error({ status: 500, message: err.message });

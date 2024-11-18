@@ -2,6 +2,10 @@ const cds = require("@sap/cds");
 const cors = require("cors");
 const cron = require("node-cron");
 
+const passport = require('passport');
+const xssec = require('@sap/xssec');
+const xsenv = require('@sap/xsenv');
+
 const { weekDates } = require("./handler/calculate-week-dates");
 const { backup } = require("../srv/backup/backup");
 
@@ -10,13 +14,30 @@ cds.on("bootstrap", async (app) => {
   const ORIGINS = { 'https://752bdd1etrial.launchpad.cfapps.us10.hana.ondemand.com': 1 }
   app.use ((req, res, next) => {
     if (req.headers.origin in ORIGINS) {
-      console.log(req.headers.origin);
-      res.set('access-control-allow-origin', req.headers.origin)
+      console.log(req);
+      res.set('access-control-allow-origin', req.headers.origin) 
       if (req.method === 'OPTIONS') // preflight request
         return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
     }
     next()
   })
+
+  // app.use(passport.initialize());
+  // const uaaService = xsenv.getServices({'uaa': {'name': 'Helloworld-xsuaa-service'}}).uaa;
+  // if (!uaaService) {
+  //   throw new Error('UAA service configuration not found. Check your service binding and configuration.');
+  // }
+  // // Log token to ensure it's being passed
+  // app.use((req, res, next) => {
+  //   console.log('JWT Token:', req.headers['authorization']);  // Log the token from the headers
+  //   console.log(req.headers);
+  //   next();
+  // });
+
+  // console.log(uaaService, 'uaaService');
+  // passport.use('JWT', new xssec.XssecPassportStrategy(uaaService));
+  // app.use(passport.authenticate('JWT', {'session': false}));
+
 
   app.get("/", (req, res) => {
     try {

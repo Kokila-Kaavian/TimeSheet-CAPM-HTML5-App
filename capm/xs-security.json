@@ -4,7 +4,7 @@
   "description": "Security profile of called application",
   "scopes": [
     {
-      "name": "uaa.user",
+      "name": "$XSAPPNAME.user",
       "description": "UAA"
     }
   ],
@@ -13,7 +13,7 @@
       "name": "Token_Exchange",
       "description": "UAA",
       "scope-references": [
-        "uaa.user"
+        "$XSAPPNAME.user"
       ]
     }
   ]

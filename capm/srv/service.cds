@@ -38,3 +38,8 @@ service timeSheetSSI
     )
     returns String
 }
+
+annotate timeSheetSSI with @requires :
+[
+    'authenticated-user'
+];

@@ -11,10 +11,12 @@ const App = () => {
   useEffect(()=>{
     const token = localStorage.getItem('accessToken');
     console.log(token);
-    axios.get('/service/timesheet/SSITimeSheetData', {
+
+    fetch('/81b0f573-c419-4628-97e8-f7e76fc17621.capm.helloWorld-1.0.0/service/timesheet/SSITimeSheetData', {
       headers: {
         'Content-Type': 'application/json'
-  }
+      },
+      credentials: 'include'
     }).then((res)=> res.json).then((data)=>{
       console.log(data);
     }).catch((err)=>{
